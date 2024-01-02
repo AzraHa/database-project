@@ -71,6 +71,22 @@ app.post("/api/employees", (req, res) => {
   );
 });
 
+// Endpoint za poziv procedure za pospremanje baze
+app.post("/api/storedProcedure", (req, res) => {
+  console.log("req.body :>> ", req.body);
+  pool.query(
+    `CALL CleanScansWithLog('${req.body.fromDate}', '${req.body.toDate}')`,
+    (err, results) => {
+      if (err) {
+        console.error("Error executing query:", err);
+        res.status(500).send("Internal Server Error");
+      } else {
+        res.json(results[0][0].log_messages);
+      }
+    }
+  );
+});
+
 app.listen(port, () => {
   console.log(`Server sluša na http://localhost:${port}`);
 });

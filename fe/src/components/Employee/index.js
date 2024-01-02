@@ -15,7 +15,7 @@ import Box from "@mui/material/Box";
 
 import { REACT_APP_BACKEND_URL } from "../../constants/appDefaults";
 
-export default function Employee() {
+const Employee = () => {
   const [employees, setEmployees] = useState([]);
   const [addClicked, setAddClicked] = useState(false);
 
@@ -203,4 +203,6 @@ export default function Employee() {
       )}
     </>
   );
-}
+};
+
+export default Employee;
