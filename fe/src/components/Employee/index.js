@@ -21,15 +21,11 @@ const rows = [
 
 export default function Employee() {
   const handleEdit = (id) => {
-    // Handle edit logic here
     alert("EDIT");
-    console.log(`Editing employee with ID: ${id}`);
   };
 
   const handleDelete = (id) => {
-    // Handle delete logic here
     alert("DELETE");
-    console.log(`Deleting employee with ID: ${id}`);
   };
 
   return (
