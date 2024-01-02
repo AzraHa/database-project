@@ -1,11 +1,27 @@
 import express from "express";
 import pkg from "body-parser";
+import mysql from "mysql2";
+import cors from "cors";
+import dotenv from "dotenv";
+dotenv.config();
 
 const { json } = pkg;
 const app = express();
 const port = 3000;
 
 app.use(json());
+app.use(cors());
+
+// Create a MySQL connection pool
+const pool = mysql.createPool({
+  host: process.env.HOST,
+  user: process.env.DATABASE_USER,
+  password: process.env.PASSWORD,
+  database: process.env.DATABASE,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
+});
 
 app.post("/api/orders", (req, res) => {
   const orderHeader = req.body.orderHeader;
@@ -15,36 +31,44 @@ app.post("/api/orders", (req, res) => {
 
 // Endpoint za dobijanje svih zaposlenika
 app.get("/api/employees", (req, res) => {
-  res.json(employees);
+  pool.query("SELECT * FROM employees", (err, results) => {
+    if (err) {
+      console.error("Error executing query:", err);
+      res.status(500).send("Internal Server Error");
+    } else {
+      res.json(results);
+    }
+  });
 });
 
-// Endpoint za dobijanje pojedinačnog zaposlenika po ID-u
-app.get("/api/employees/:id", (req, res) => {
-  const employeeId = parseInt(req.params.id);
-  const employee = employees.find((emp) => emp.id === employeeId);
-
-  if (!employee) {
-    return res.status(404).json({ message: "Zaposlenik nije pronađen" });
-  }
-
-  res.json(employee);
+// Endpoint za brisanje pojedinačnog zaposlenika po ID-u
+app.delete("/api/employees/:id", (req, res) => {
+  pool.query(
+    `DELETE FROM employees where id = ${req.params.id}`,
+    (err, results) => {
+      if (err) {
+        console.error("Error executing query:", err);
+        res.status(500).send("Internal Server Error");
+      } else {
+        res.json(results);
+      }
+    }
+  );
 });
 
 // Endpoint za dodavanje novog zaposlenika
 app.post("/api/employees", (req, res) => {
-  const newEmployee = req.body;
-  newEmployee.id = employees.length + 1;
-  employees.push(newEmployee);
-
-  res.status(201).json(newEmployee);
-});
-
-// Endpoint za brisanje zaposlenika po ID-u
-app.delete("/api/employees/:id", (req, res) => {
-  const employeeId = parseInt(req.params.id);
-  employees = employees.filter((emp) => emp.id !== employeeId);
-
-  res.json({ message: "Zaposlenik uspešno obrisan" });
+  pool.query(
+    `INSERT INTO employees (employee_code, employee_name, role) VALUES ('${req.body.employee_code}', '${req.body.employee_name}', '${req.body.role}')`,
+    (err, results) => {
+      if (err) {
+        console.error("Error executing query:", err);
+        res.status(500).send("Internal Server Error");
+      } else {
+        res.json(results);
+      }
+    }
+  );
 });
 
 app.listen(port, () => {
