@@ -17,6 +17,10 @@ const HomePage = () => {
     navigate("/create-order");
   };
 
+  const cleanDatabase = () => {
+    navigate("clean-database");
+  };
+
   return (
     <div>
       <h2>HomePage</h2>
@@ -32,6 +36,13 @@ const HomePage = () => {
       </Button>
       <Button variant="outlined" color="primary" onClick={() => createOrder()}>
         Create order
+      </Button>
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={() => cleanDatabase()}
+      >
+        Clean the database
       </Button>
     </div>
   );
