@@ -73,7 +73,6 @@ app.post("/api/employees", (req, res) => {
 
 // Endpoint za poziv procedure za pospremanje baze
 app.post("/api/storedProcedure", (req, res) => {
-  console.log("req.body :>> ", req.body);
   pool.query(
     `CALL CleanScansWithLog('${req.body.fromDate}', '${req.body.toDate}')`,
     (err, results) => {
@@ -82,6 +81,33 @@ app.post("/api/storedProcedure", (req, res) => {
         res.status(500).send("Internal Server Error");
       } else {
         res.json(results[0][0].log_messages);
+      }
+    }
+  );
+});
+
+// Endpoint za prikaz svih narudzbi
+app.get("/api/orders", (req, res) => {
+  pool.query(`SELECT * FROM order_details_view;`, (err, results) => {
+    if (err) {
+      console.error("Error executing query:", err);
+      res.status(500).send("Internal Server Error");
+    } else {
+      res.json(results);
+    }
+  });
+});
+
+// Endpoint za prijem narudžbe (zaglavlje + stavke)
+app.post("/api/orders", (req, res) => {
+  pool.query(
+    `CALL InsertDeliveryNote('${req.body.customerID}', '${req.body.yearParam}', '${req.warehouseID}','${req.orderID}','${req.scanID}', '${req.body.deliveryNoteNumber}', '${req.body.itemsData}}})`,
+    (err, results) => {
+      if (err) {
+        console.error("Error executing query:", err);
+        res.status(500).send("Internal Server Error");
+      } else {
+        res.json(results);
       }
     }
   );

@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import EmployeeList from "./components/Employee/index";
 import HomePage from "./components/HomePageComponent";
 import CleanDatabase from "./components/CleanDatabase";
+import Orders from "./components/Orders";
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
           path={"/employees"}
           element={<EmployeeList route={"employees"} />}
         />
-        <Route path={"/orders"} element={<EmployeeList route={"orders"} />} />
+        <Route path={"/orders"} element={<Orders route={"orders"} />} />
         <Route
           path={"/clean-database"}
           element={<CleanDatabase route={"clean-database"} />}
