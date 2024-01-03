@@ -12,18 +12,11 @@ import Paper from "@mui/material/Paper";
 import ModalComponent from "../ModalComponent";
 
 import { REACT_APP_BACKEND_URL } from "../../constants/appDefaults";
-import { Button } from "@mui/material";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [selectedRow, setSelectedRow] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [addClicked, setAddClicked] = useState(false);
-  const [orderData, setOrderData] = useState({
-    employee_name: "",
-    employee_code: "",
-    role: ""
-  });
 
   const handleRowClick = (row) => {
     try {
@@ -52,45 +45,9 @@ const Orders = () => {
     }
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setOrderData((prevData) => ({
-      ...prevData,
-      [name]: value
-    }));
-  };
-
   useEffect(() => {
     fetchOrders();
   }, []);
-
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await fetch(`${REACT_APP_BACKEND_URL}/order`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(orderData)
-      });
-
-      if (!response.ok) {
-        alert(response);
-        throw new Error("Failed to add employee", response);
-      }
-
-      setOrderData(null);
-
-      fetchOrders();
-
-      alert("Employee added successfully");
-    } catch (error) {
-      console.error("Error adding employee:", error.message);
-      alert("Failed to add employee");
-    }
-  };
 
   return (
     <>
@@ -138,53 +95,6 @@ const Orders = () => {
           handleClose={handleCloseModal}
           data={selectedRow}
         />
-      ) : (
-        ""
-      )}
-
-      <Button onClick={() => setAddClicked(!addClicked)}>Create order</Button>
-
-      {addClicked ? (
-        <div>
-          <form onSubmit={handleFormSubmit}>
-            <label style={{ display: "block", margin: "10px 0" }}>
-              Name:
-              <input
-                type="text"
-                name="employee_name"
-                value={orderData.employee_name}
-                onChange={handleInputChange}
-                style={{ marginLeft: "10px" }}
-              />
-            </label>
-            <br />
-            <label style={{ display: "block", margin: "10px 0" }}>
-              Code:
-              <input
-                type="text"
-                name="employee_code"
-                value={orderData.employee_code}
-                onChange={handleInputChange}
-                style={{ marginLeft: "10px" }}
-              />
-            </label>
-            <br />
-            <label style={{ display: "block", margin: "10px 0" }}>
-              Role:
-              <input
-                type="text"
-                name="role"
-                value={orderData.role}
-                onChange={handleInputChange}
-                style={{ marginLeft: "10px" }}
-              />
-            </label>
-            <br />
-            <Button type="submit" variant="outlined" color="primary">
-              Add Employee
-            </Button>
-          </form>
-        </div>
       ) : (
         ""
       )}

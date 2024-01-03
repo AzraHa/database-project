@@ -22,7 +22,7 @@ router.get("", (req, res) => {
 router.post("", (req, res) => {
   dbConnection.connect();
   dbConnection.query(
-    `CALL InsertDeliveryNote('${req.body.customerID}', '${req.body.yearParam}', '${req.warehouseID}','${req.orderID}','${req.scanID}', '${req.body.deliveryNoteNumber}', '${req.body.itemsData})`,
+    `CALL InsertDeliveryNote('${req.body.customerID}', '${req.body.year}', '${req.body.warehouseId}','${req.body.deliveryNoteNumber}', '${req.body.itemsData}')`,
     (err, data) => {
       if (err) {
         console.error("Error executing query:", err);

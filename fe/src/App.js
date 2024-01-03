@@ -4,6 +4,7 @@ import HomePage from "./components/HomePageComponent";
 import CleanDatabase from "./components/CleanDatabase";
 import Orders from "./components/Orders";
 import CustomerOrders from "./components/CustomerOrders";
+import CreateOrder from "./components/CreateOrder";
 
 function App() {
   return (
@@ -15,6 +16,10 @@ function App() {
           element={<EmployeeList route={"employees"} />}
         />
         <Route path={"/orders"} element={<Orders route={"orders"} />} />
+        <Route
+          path={"/create-order"}
+          element={<CreateOrder route={"create-order"} />}
+        />
         <Route
           path={"/customer-orders"}
           element={<CustomerOrders route={"customer-orders"} />}
