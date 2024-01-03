@@ -34,7 +34,7 @@ yarn
 
 ## Dependencies
 
-```
+```arduino
 Express: Web application framework for Node.js.
 body-parser: Middleware to parse incoming request bodies in a middleware before your handlers.
 cors: Middleware to enable Cross-Origin Resource Sharing (CORS) in your Express app.
