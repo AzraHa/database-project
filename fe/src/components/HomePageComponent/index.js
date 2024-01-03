@@ -13,6 +13,10 @@ const HomePage = () => {
     navigate("/orders");
   };
 
+  const goToCustomerOrders = () => {
+    navigate("/customer-orders");
+  };
+
   const createOrder = () => {
     navigate("/create-order");
   };
@@ -33,6 +37,13 @@ const HomePage = () => {
       </Button>
       <Button variant="outlined" color="primary" onClick={() => goToOrders()}>
         Orders
+      </Button>
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={() => goToCustomerOrders()}
+      >
+        Customer orders
       </Button>
       <Button variant="outlined" color="primary" onClick={() => createOrder()}>
         Create order

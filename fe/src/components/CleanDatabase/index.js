@@ -18,7 +18,7 @@ const CleanDatabase = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`${REACT_APP_BACKEND_URL}storedProcedure`, {
+      const response = await fetch(`${REACT_APP_BACKEND_URL}reports`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
