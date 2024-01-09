@@ -76,7 +76,7 @@ const Employee = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`${REACT_APP_BACKEND_URL}/employees`, {
+      const response = await fetch(`${REACT_APP_BACKEND_URL}employees`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
